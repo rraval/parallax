@@ -203,4 +203,88 @@ try {
 A Rudimentary Expression Evaluator
 ----------------------------------
 
-FIXME: write this
+The hello world of the parser world, let's build something that evaluates
+expressions.
+
+```javascript
+function spaces($) {
+    return $($().takeWhile(function(c) { return /\s/.test(c); }));
+}
+
+function number($) {
+    var sign = $([$('-')]) ? -1 : 1; // optional minus sign
+    var s = $($().takeWhile(function(c) { return /\d/.test(c); }));
+    var i;
+
+    var num = 0;
+    for (i = 0; i < s.length; ++i) {
+        num *= 10;
+        // FIXME: only works for ASCII
+        num += snum.chatCodeAt(i) - 0x30;
+    }
+
+    return num * sign;
+}
+
+function expr($) {
+    $(spaces);
+
+    return $([
+        function ($) {
+            $($('('));
+            var e = $(expr);
+
+            $(spaces);
+            $($(')'));
+
+            return e;
+        },
+        term
+    ]);
+}
+
+function term($) {
+    $(spaces);
+    var n1 = $(factor);
+    var n2 = $([function($) {
+        $(spaces);
+        var op = $([
+            $('+'),
+            $('-')
+        ]);
+        $(spaces);
+        var num = $(factor);
+
+        return (op == '+') ? num : -num;
+    }]);
+
+    if (n2) {
+        n1 += n2;
+    }
+
+    return n1;
+}
+
+function factor($) {
+    $(spaces);
+
+    var n1 = $(number);
+    var n2 = $([function($) {
+        $(spaces);
+        var op = $([
+            $('*'),
+            $('/')
+        ]);
+        $(spaces);
+        var num = $(number);
+
+        return (op == '*') ? num : 1 / num;
+    }]);
+
+    if (n2) {
+        return n1 *= n2;
+    }
+
+    return n1;
+}
+```
