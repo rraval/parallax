@@ -114,7 +114,7 @@ function manyFoo($) {
 
 `$().takeWhile` and `$().takeTill` accept a predicate function and consume input while the predicate returns `true` or until it returns `true` respectively. The predicate is a unary function that takes a character as an argument and returns `true` or `false`.
 
-There also exist `$().many1`, `$().takeWhile1`, and `$().takeTill1` which ensure non-empty results (think of them as the analogue to regular expression's `+` operator compared to the `\*` operator).
+There also exist `$().many1`, `$().takeWhile1`, and `$().takeTill1` which ensure non-empty results (think of them as the analogue to regular expression's `+` operator compared to the `*` operator).
 
 Finally, `$().atEnd` is a parser that consumes no input, and if composed, returns true if and only if the input has been completely consumed.
 
